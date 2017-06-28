@@ -1,4 +1,29 @@
-"use strice"
+function setCookie(cookieName,value,date){
+            document.cookie=cookieName+"="+value+
+                ";expires="+date.toGMTString();
+        }
+function getCookie(cookieName){
+	//将document.cookie保存在变量cookie中
+	var cookie=document.cookie;
+	//在cookie中查找cookieName的位置保存在i中
+	var i=cookie.indexOf(cookieName);
+	//如果i等于-1,就返回null
+	if(i==-1){return null}
+	else{//否则  
+		//i+cookieName的长度+1,保存在变量starti中
+		var starti=i+cookieName.length+1;
+		//从starti开始查找cookie中下一个;的位置endi
+		var endi=cookie.indexOf(";",starti);
+		//如果endi是-1
+		if(endi==-1){
+		//截取cookie中starti到结尾的剩余内容,返回
+			return cookie.slice(starti);
+		}else{//否则
+			//截取cookie中starti到endi的内容，返回
+			return cookie.slice(starti,endi);
+		}
+	}
+}
 var game={
 	RN:4,CN:4,//总行数和总列数
 	data:null,//保存游戏格子数据的二维数组
@@ -11,7 +36,10 @@ var game={
 	/*强调: 1. 方法中只要使用对象的属性都要加this.
            2. 每个属性和方法之间必须用,号分割
   	*/
+  	top:0,//保存游戏最高分
 	start:function(){//游戏启动
+		//获得cookie中的top变量值，保存在top属性中(如果top变量的值无效，就用0代替)
+		this.top=getCookie("top")||0;
 		//step1——初始化二维数组
 		this.state=this.RUNNING;
 		this.score=0;//② 重置为0
@@ -51,30 +79,36 @@ var game={
        		//随机生成一个数
        		this.randomNum();
        		//如果游戏结束
-       		if(this.isGameOver()==true){
+       		if(this.isGameOver()){
        		 	//修改游戏状态为GAMEOVER
        		 	this.state=this.GAMEOVER;
+       		 	if(this.score>this.top){//如果score>top
+       		 		var now=new Date();//获得当前时间now
+       		 		//将now+1年
+       		 		now.setFullYear(now.getFullYear()+1);
+       		 	 	//才将score写入cookie中的top变量,设置过期日期为now
+       		 	 	setCookie("top",this.score,now);
+       		 	}
        		}
-       		//更新页面
-       		this.updateView();
+       		this.updateView();//更新页面
        	}
 	},
 	isGameOver:function(){
 		//遍历data中每个元素
 		for(var r=0;r<this.RN;r++){
-			for(var c=0;c<this.CN-1;c++){
+			for(var c=0;c<this.CN;c++){
 				//如果当前元素是0，就返回false
 				if(this.data[r][c]==0){return false;}
 				//否则，如果c<CN-1&&当前元素等于右侧元素
 				else if(c<this.CN-1&&this.data[r][c]==this.data[r][c+1]){
 					return false;
-				}else if(c<this.RN-1&&this.data[r][c]==this.data[r+1][c]){
+				}else if(r<this.RN-1&&this.data[r][c]==this.data[r+1][c]){
 					//否则，如果r<RN-1&&当前元素等于下方元素
 					return false;//就返回false
 				}
-			}//(遍历结束)
-			return true;//返回true
-		}
+			}
+		}//(遍历结束)
+		return true;//返回true
 	},
 	moveLeft:function(){//左移所有行
     	this.move(function(){
@@ -234,7 +268,7 @@ var game={
 		  	//遍历data中每一列
 		  	for(var c=0;c<this.CN;c++){
 		    	//调用moveDownInCol下移第c列
-		    	this.moveDownInCol(c)
+		    	this.moveDownInCol(c);
 		  	}
 		  }.bind(/*moveDown里的this*/this));
 	},
@@ -313,14 +347,17 @@ var game={
 			document.getElementById("gameOver")
 					.style.display="none";
 		}
+		//设置id为topScore的内容为top属性
+		document.getElementById("topScore")
+				.innerHTML=this.top;
 	},
 	//step2——在一个随机位置生成一个2或4
 	randomNum:function(){
 		while(true){//反复: 
 			//在0~RN-1之间生成一个随机整数r
-			r=Math.floor(Math.random()*(this.RN));
+			var r=Math.floor(Math.random()*(this.RN));
 			//在0~CN-1之间生成一个随机整数c
-			c=Math.floor(Math.random()*(this.CN));
+			var c=Math.floor(Math.random()*(this.CN));
 			//如果data中r行c列的值是0
 			if(this.data[r][c]==0){
 			//设置data中r行c列的值为:
