@@ -1,0 +1,74 @@
+.container {
+  width:970px;
+  margin:0 auto;
+}
+.header .container {
+  padding:1.4em;
+}
+.header .logo{
+  vertical-align: middle;
+}
+.header .welcome{
+  line-height:60px;
+  font-size:2em;
+  border-left:2px solid #CACACA;
+  padding-left:1em;
+  margin-left:1em;
+  letter-spacing: .8em;
+}
+.main video {
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+}
+.form-container {
+  background: rgba(255, 255, 255, .8);
+  padding: 2em;
+  margin: 20px auto;
+  border-radius:5px;
+}
+#form-register .form-group {
+  line-height: 3em;
+  margin:10px;
+  margin-top:0;
+
+}
+#form-register label {
+  display: inline-block;
+  width: 80px;
+  text-align: right;
+}
+#form-register input {
+  width: 200px;
+  height:25px;
+  border:1px solid #CACACA;
+  border-radius:4px;
+}
+#form-register span{
+  margin-left:20px;
+  border-radius:3px;
+  color: #fff;
+  padding:4px;
+  display:inline-block;
+  width:200px;
+  height:20px;
+  vertical-align: middle;
+  line-height: 20px;
+}
+#bt-register{
+  background:#74B566;
+  width: 220px;
+  height:25px;
+}
+.msg-default {
+  background-color: #999;
+}
+.msg-error{
+  background-color: #D36655;
+}
+.msg-success{
+  background-color: #6BA663;
+}
+.hidden {
+  display: none;
+}

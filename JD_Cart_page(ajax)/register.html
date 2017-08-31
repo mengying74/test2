@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>用户注册 — 京东商城</title>
+  <link rel="icon" href="img/favicon.ico"/>
+  <link rel="stylesheet" href="jd.css"/>
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <!--页头-->
+  <div class="header">
+    <div class="container">
+      <img class="logo" src="images/logo-201305.png">
+      <b class="welcome">欢迎注册</b>
+    </div>
+  </div>
+  <!--主体-->
+  <div class="main">
+    <video src="res/snow.mp4" autoplay loop muted></video>
+    <div class="container">
+    </div>
+  </div>
+  <!--页尾-->
+  <div class="footer">
+    <div class="container">
+      <div class="form-container">
+        <form id="form-register">
+          <div class="form-group">
+            <label for="uname">用户名：</label>
+            <input name="uname" id="uname" required autofocus minlength="6" maxlength="9">
+            <span class="msg-default">用户名长度在6到9位之间的数字或字母</span>
+          </div>
+          <div class="form-group">
+            <label for="upwd">密码：</label>
+            <input type="password" name="upwd" id="upwd" required minlength="6" maxlength="12">
+            <span class="msg-default">密码长度在6~12位之间</span>
+          </div>
+          <div class="form-group">
+            <label for="email">邮箱：</label>
+            <input type="email" name="email" id="email" required>
+            <span class="msg-default">请输入合法的邮箱格式</span>
+          </div>
+          <div class="form-group">
+            <label for="homepage">个人主页：</label>
+            <input type="url" name="homepage" id="homepage">
+            <span class="msg-default">个人主页必须符合URL格式</span>
+          </div>
+          <div class="form-group">
+            <label for="age">年龄：</label>
+            <input type="number" name="age" id="age" required max="120">
+            <span class="msg-default">年龄必须在18~60之间</span>
+          </div>
+          <div class="form-group">
+            <label for="birthday">生日：</label >
+            <input type="date" name="birthday" id="birthday">
+            <span class="msg-default">生日可以不填写</span>
+          </div>
+          <div class="form-group">
+            <!--同步提交-->
+            <!--<input type="submit"/>-->
+            <!--同步提交，button的type默认为submit-->
+            <!--<button>ABCD</button>-->
+            <label for="bt-register"></label>
+            <input id="bt-register" type="button" value="注册"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.11.3.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>
