@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>使用Canvas模拟验证码图片</title>
+  <style>
+    body{text-align: center;}
+    canvas{vertical-align:middle;}
+  </style>
+</head>
+<body>
+  <h2>使用Canvas模拟验证码图片</h2>
+  <audio src="res/bg.mp3"></audio>
+  <canvas id="vcode" width="90" height="26"></canvas>
+  <a id="a1" href="#">看不清，换一张</a>
+  <script>
+    var ctx=vcode.getContext('2d');
+    var w=vcode.width;
+    var h=vcode.height;
+    function change(){
+      //填充一个矩形做背景
+      ctx.fillStyle=rc(180,240);
+      ctx.fillRect(0,0,w,h);
+
+      //绘制5个随机字符
+      var pool='ABCDEFGHJKLMNPQRSTWXY3456789';
+      ctx.textBaseline='bottom';
+      for(var i=0;i<5;i++){
+        var x=18*i+5; //本文的x坐标；
+        var y=h;  //本文的y坐标
+        var c=pool[rn(0,pool.length)];
+        ctx.fillStyle=rc(30,180); //文本颜色
+        ctx.font=rn(10,30)+'px Arial';  //文本大小
+        var deg=rn(-40,40); //文本旋转
+        ctx.translate(x,y);
+        ctx.rotate(deg*Math.PI/180);
+        ctx.fillText(c,0,0);
+        ctx.rotate(-deg*Math.PI/180);
+        ctx.translate(-x,-y); //平移回去
+      }
+      //绘制5条干扰线
+      for(var i=0;i<3;i++){
+        ctx.beginPath();
+        ctx.moveTo(rn(0,w),rn(0,h));
+        ctx.lineTo(rn(0,w),rn(0,h));
+        ctx.strokeStyle=rc(30,180);
+        ctx.stroke();
+      }
+
+      //绘制50个杂色点——半径为1的圆
+      for(var i=0;i<20;i++){
+        ctx.beginPath();
+        ctx.arc(rn(0,w),rn(0,h),1,0,2*Math.PI);
+        ctx.strokeStyle=rc(30,230);
+        ctx.fill();
+      }
+
+      //获取一个指定范围内随机数 random number
+      function rn(min,max){
+        return Math.floor(Math.random()*(max-min)+min);
+      }
+      //获取一个指定范围内随机颜色 random color
+      function rc(min,max){
+        var r=rn(min,max);
+        var g=rn(min,max);
+        var b=rn(min,max);
+        return `rgb(${r},${g},${b}`;
+      }
+    }
+    change();
+    a1.onclick=function(e){
+      e.preventDefault();
+      change();
+    }
+
+  </Script>
+</body>
+</html>
